@@ -4,9 +4,9 @@ module BulkInsert
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def bulk_insert(*columns, values: nil, set_size:500, ignore: false, table_suffix: nil)
+    def bulk_insert(*columns, values: nil, set_size:500, ignore: false, custom_table_name: nil)
       columns = default_bulk_columns if columns.empty?
-      table_name = "#{table_name}_#{table_suffix}" unless table_suffix.nil?
+      table_name = custom_table_name unless custom_table_name.nil?
 
       worker = BulkInsert::Worker.new(connection, table_name, columns, set_size, ignore)
 

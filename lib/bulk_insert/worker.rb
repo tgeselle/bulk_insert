@@ -19,6 +19,7 @@ module BulkInsert
       column_map = columns.inject({}) { |h, c| h.update(c.name => c) }
 
       @columns = column_names.map { |name| column_map[name.to_s] }
+      @columns = @columns[1]
       @table_name = connection.quote_table_name(table_name)
       @column_names = column_names.map { |name| connection.quote_column_name(name) }.join(",")
 
@@ -85,7 +86,7 @@ module BulkInsert
 
     def compose_insert_query
       sql = insert_sql_statement
-      @now = Time.now    
+      @now = Time.now
       rows = []
 
       @set.each do |row|
